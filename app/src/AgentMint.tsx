@@ -7,22 +7,27 @@ import {
   useSuiClient,
   useSignAndExecuteTransaction,
 } from "@mysten/dapp-kit";
-
-import { useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
-
+import { useAgentStore } from './store/agentStore';
 import { Toast } from "./components/Toast";
 import { useToast } from "./hooks/useToast";
 
 
 export function AgentMint() {
+  const {
+    agentName,
+    agentLogo,
+    agentDescription,
+    isLoading,
+    setAgentName,
+    setAgentLogo,
+    setAgentDescription,
+    setIsLoading,
+  } = useAgentStore();
+
   const currentAccount = useCurrentAccount();
   const suiClient = useSuiClient();
   const { mutate: signAndExecute } = useSignAndExecuteTransaction();
-  const [agentName, setAgentName] = useState("");
-  const [agentLogo, setAgentLogo] = useState("");
-  const [agentDescription, setAgentDescription] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const { toasts, showToast, hideToast } = useToast();
   const sdk = new AnemoneSDK();
  

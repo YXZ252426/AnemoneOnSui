@@ -4,7 +4,10 @@ import { BrowserRouter, Routes, Route, useNavigate, Navigate, useLocation } from
 import { AgentMint } from "./AgentMint";
 import { Chat } from "./Chat";
 import { Box, Flex, Text } from "@radix-ui/themes";
-import  NftMappingsList  from "./NftMappingsList";
+import  NftMappingsList  from "./AgentHub";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 function Navigation() {
   const navigate = useNavigate();
@@ -38,20 +41,22 @@ function Navigation() {
 
 export default function App() {
   return (
-    <Theme appearance="dark">
-      <WalletProvider>
-        <BrowserRouter>
-          <Box p="4">
-            <Navigation />
-            <Routes>
-              <Route path="/createAgent" element={<AgentMint />} />
-              <Route path="/chat/:roleId" element={<Chat />} />
-              <Route path="/AgentHub" element={<NftMappingsList />} />
-              <Route path="/" element={<Navigate to="/createAgent" replace />} />
-            </Routes>
-          </Box>
-        </BrowserRouter>
-      </WalletProvider>
-    </Theme>
+    <QueryClientProvider client={queryClient}>
+      <Theme appearance="dark">
+        <WalletProvider>
+          <BrowserRouter>
+            <Box p="4">
+              <Navigation />
+              <Routes>
+                <Route path="/createAgent" element={<AgentMint />} />
+                <Route path="/chat/:roleId" element={<Chat />} />
+                <Route path="/AgentHub" element={<NftMappingsList />} />
+                <Route path="/" element={<Navigate to="/createAgent" replace />} />
+              </Routes>
+            </Box>
+          </BrowserRouter>
+        </WalletProvider>
+      </Theme>
+    </QueryClientProvider>
   );
 }
